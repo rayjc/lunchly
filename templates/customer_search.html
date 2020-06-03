@@ -1,0 +1,11 @@
+{% extends 'customer_list.html' %}
+{% block title %}Search{% endblock %}
+{% block content %}
+
+{{ super() }}
+
+{% if customers.length == 0 %}
+<p>No results for "{{ query }}"</p>
+{% endif %}
+
+{% endblock %}

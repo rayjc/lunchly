@@ -33,6 +33,24 @@ class Customer {
     return results.rows.map(c => new Customer(c));
   }
 
+  /** search and return customers. */
+
+  static async search(name) {
+    const terms = name.split(' ');
+    const statements = terms.map(term => `first_name ILIKE '%${term}%' OR last_name ILIKE '%${term}%' `);
+    const results = await db.query(
+      `SELECT id, 
+         first_name AS "firstName",  
+         last_name AS "lastName", 
+         phone, 
+         notes
+       FROM customers
+       WHERE ${statements.join('OR ')}
+       ORDER BY last_name, first_name`
+    );
+    return results.rows.map(c => new Customer(c));
+  }
+
   /** get a customer by ID. */
 
   static async get(id) {
